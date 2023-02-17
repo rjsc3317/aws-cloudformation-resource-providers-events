@@ -1,16 +1,13 @@
 package software.amazon.events.rule;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import software.amazon.awssdk.services.cloudwatchevents.CloudWatchEventsClient;
+import software.amazon.awssdk.services.cloudwatchevents.model.CapacityProviderStrategyItem;
 import software.amazon.awssdk.services.cloudwatchevents.model.DescribeRuleResponse;
 import software.amazon.awssdk.services.cloudwatchevents.model.ListTargetsByRuleResponse;
-import software.amazon.cloudformation.proxy.AmazonWebServicesClientProxy;
-import software.amazon.cloudformation.proxy.Logger;
-import software.amazon.cloudformation.proxy.ProgressEvent;
-import software.amazon.cloudformation.proxy.ProxyClient;
-import software.amazon.cloudformation.proxy.ResourceHandlerRequest;
+import software.amazon.cloudformation.proxy.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ReadHandler extends BaseHandlerStd {
@@ -53,9 +50,7 @@ public class ReadHandler extends BaseHandlerStd {
             .then(progress -> proxy.initiate("AWS-Events-Rule::ListTargets", proxyClient, request.getDesiredResourceState(), callbackContext)
                 .translateToServiceRequest(Translator::translateToListTargetsByRuleRequest)
                 .makeServiceCall((awsRequest, client) -> {
-                    ListTargetsByRuleResponse awsResponse = null;
-                    awsResponse = proxyClient.injectCredentialsAndInvokeV2(awsRequest, proxyClient.client()::listTargetsByRule);
-
+                    final ListTargetsByRuleResponse awsResponse = proxyClient.injectCredentialsAndInvokeV2(awsRequest, proxyClient.client()::listTargetsByRule);
                     logger.log(String.format("StackId: %s: %s [%s] has successfully been read.", request.getStackId(), "AWS::Events::Target", awsResponse.targets().size()));
                     return awsResponse;
                 })
