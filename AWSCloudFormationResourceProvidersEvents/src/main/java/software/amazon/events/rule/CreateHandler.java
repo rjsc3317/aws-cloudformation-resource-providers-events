@@ -20,8 +20,6 @@ import software.amazon.awssdk.services.cloudwatchevents.model.Target;
 import java.util.HashSet;
 
 public class CreateHandler extends BaseHandlerStd {
-    private Logger logger;
-
     public static final int MAX_RETRIES_ON_PUT_TARGETS = 5;
 
     protected ProgressEvent<ResourceModel, CallbackContext> handleRequest(

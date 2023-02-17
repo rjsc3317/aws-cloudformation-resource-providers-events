@@ -85,7 +85,7 @@ public class ReadHandlerTest extends AbstractTestBase {
                 "  }",
                 "}");
 
-        Map<String, Object> eventMapperMap = null;
+        Map<String, Object> eventMapperMap;
         try {
             eventMapperMap = MAPPER.readValue(eventPatternString, new TypeReference<Map<String, Object>>(){});
         } catch (JsonProcessingException e) {

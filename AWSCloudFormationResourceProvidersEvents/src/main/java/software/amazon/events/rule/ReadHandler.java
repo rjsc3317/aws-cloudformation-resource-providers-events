@@ -14,9 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ReadHandler extends BaseHandlerStd {
-    private Logger logger;
     private static final ObjectMapper MAPPER = new ObjectMapper();
-
 
     protected ProgressEvent<ResourceModel, CallbackContext> handleRequest(
             final AmazonWebServicesClientProxy proxy,
@@ -46,9 +44,7 @@ public class ReadHandler extends BaseHandlerStd {
                 })
                 .handleError(this::handleError)
                 .done(awsResponse -> {
-
                     finalResourceModel.set(Translator.translateFromDescribeRuleResponse(awsResponse));
-
                     return ProgressEvent.progress(model, callbackContext);
                 })
             )

@@ -69,9 +69,8 @@ public abstract class BaseHandlerStd extends BaseHandler<CallbackContext> {
     final Logger logger);
 
   public ProgressEvent<ResourceModel, CallbackContext> handleError(final CloudWatchEventsRequest request, final Exception e, final ProxyClient<CloudWatchEventsClient> proxyClient, final ResourceModel resourceModel, final CallbackContext callbackContext) {
-    if (logger != null) { // FIXME What the hell?
-      logger.log(String.format("handleError for: %s", e));
-    }
+    logger.log(String.format("handleError for: %s", e));
+
     BaseHandlerException ex;
     if (e instanceof ConcurrentModificationException) {
       ex = new CfnResourceConflictException(e);
